@@ -1091,31 +1091,29 @@ class ArgentumTestnet(Argentum):
     REORG_LIMIT = 2000
 
 
-class DigiByte(Coin):
-    NAME = "DigiByte"
+class DigibyteMixin(object):
     SHORTNAME = "DGB"
     NET = "mainnet"
+    XPUB_VERBYTES = bytes.fromhex("0488b21e")
+    XPRV_VERBYTES = bytes.fromhex("0488ade4")
     P2PKH_VERBYTE = bytes.fromhex("1E")
     P2SH_VERBYTES = [bytes.fromhex("05")]
     WIF_BYTE = bytes.fromhex("80")
     GENESIS_HASH = ('7497ea1b465eb39f1c8f507bc877078f'
                     'e016d6fcb6dfad3a64c98dcc6e1e8496')
+    RPC_PORT = 14022
+
+class DigibyteSegwit(DigibyteMixin, Coin):
+    NAME = "DigibyteSegwit"
     DESERIALIZER = lib_tx.DeserializerSegWit
+    MEMPOOL_HISTOGRAM_REFRESH_SECS = 120
     TX_COUNT = 1046018
     TX_COUNT_HEIGHT = 1435000
     TX_PER_BLOCK = 1000
-    RPC_PORT = 12022
-
-
-class DigiByteTestnet(DigiByte):
-    NET = "testnet"
-    P2PKH_VERBYTE = bytes.fromhex("6f")
-    P2SH_VERBYTES = [bytes.fromhex("c4")]
-    WIF_BYTE = bytes.fromhex("ef")
-    GENESIS_HASH = ('b5dca8039e300198e5fe7cd23bdd1728'
-                    'e2a444af34c447dbd0916fa3430a68c2')
-    RPC_PORT = 15022
-    REORG_LIMIT = 2000
+    BLACKLIST_URL = 'https://electrum.dgb256.online/blacklist.json'
+    PEERS = [
+        'electrum.dgb256.online s t',
+    ]
 
 
 class FairCoin(Coin):
